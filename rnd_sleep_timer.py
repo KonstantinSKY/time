@@ -1,10 +1,8 @@
 #!/bin/pyton
 
 import time
-from random import randint,  random, uniform
-import keyboard
-
-STOP_KEY = False
+from random import randint, random, uniform
+import keyboard_events as ke
 
 
 def countdown(t):
@@ -16,29 +14,16 @@ def countdown(t):
         t -= 1
 
 
-def _return():
-    global STOP_KEY
-    print("Module stopped")
-    STOP_KEY = True
-    return
-
-
 def rnd_sleep(start, finish):
     delay = uniform(start, finish)
     print("Delay for :  ", delay, " sec")
-
-    try:
-        print("Push Ctrl + Shift + j  for stop delay and exit function")
-        keyboard.add_hotkey("ctrl+shift+j", lambda: _return())
-    except Exception:
-        print("For STOP_KEY you need to run in root ")
-
+    ke.activate_stop_key()
     while delay >= 1:
-        if STOP_KEY:
+        if ke.STOP_KEY:
             return
         time.sleep(1)
         delay -= 1
-        print(delay, end='\r')
+        print(" ", delay, end='\r')
 
 
 if __name__ == "__main__":
